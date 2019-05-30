@@ -7,7 +7,6 @@ package Start;
 
 import Objects.Baraja;
 import Utilidades.Constantes;
-import java.net.URL;
 import java.util.Collections;
 
 /**
@@ -16,9 +15,6 @@ import java.util.Collections;
  */
 public class Start {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         
         Baraja barajaPartida = Baraja.getInstance();

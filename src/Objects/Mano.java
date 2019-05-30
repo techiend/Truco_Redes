@@ -18,6 +18,14 @@ public class Mano {
     public Mano() {
     }
     
+    public static Mano getInstance() {
+        return NewSingletonHolder.INSTANCE;
+    }
+    
+    private static class NewSingletonHolder {
+        private static final Mano INSTANCE = new Mano();
+    }   
+    
     public void addCarta(Carta carta){
         mano.add(carta);
     }

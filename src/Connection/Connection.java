@@ -70,6 +70,7 @@ public class Connection {
                     while (buffer.length<4){}
 
                     // MANEJAR LO RECIBIDO
+                    
                     if (!Constantes.ByteToString(buffer[1]).equals("00000000")){
                         System.out.println("Estas recibiendo Cartas");
                         Mano mano = Mano.getInstance();
@@ -77,7 +78,7 @@ public class Connection {
                     }
                     
                     if (!Constantes.ByteToString(buffer[2]).equals("00000000")){
-                        System.out.println("Estas recibiendo algo en la segunda pos.");
+                        System.out.println("Estas recibiendo que una persona boto una carta en la segunda pos.");
                     }
                     
                     if (!Constantes.ByteToString(buffer[3]).equals("00000000")){
