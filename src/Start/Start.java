@@ -6,8 +6,8 @@
 package Start;
 
 import Connection.Connection;
-import Objects.Baraja;
-import Objects.Mano;
+import Model.Baraja;
+import Model.Mano;
 import Utilidades.Constantes;
 import java.util.Collections;
 import java.util.Scanner;

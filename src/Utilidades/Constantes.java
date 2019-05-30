@@ -5,7 +5,7 @@
  */
 package Utilidades;
 
-import Objects.Carta;
+import Model.Carta;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;

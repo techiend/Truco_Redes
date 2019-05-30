@@ -6,8 +6,8 @@
 package Start;
 
 import Connection.Connection;
-import Interfaces.Mesa;
-import Objects.Baraja;
+import View.Mesa;
+import Model.Baraja;
 import Utilidades.Constantes;
 import java.util.Collections;
 import java.util.Scanner;

@@ -5,7 +5,8 @@
  */
 package Connection;
 
-import Objects.Mano;
+import Controller.Mesa_Controller;
+import Model.Mano;
 import Utilidades.Constantes;
 import com.fazecast.jSerialComm.SerialPort;
 import java.awt.Window;
@@ -81,6 +82,11 @@ public class Connection {
 
                             Mano mano = Mano.getInstance();
                             mano.addCarta(Constantes.stringToCarta(Constantes.ByteToString(buffer[1])));
+                            
+                            Mesa_Controller mesa_controller = Mesa_Controller.getInstance();
+                            
+                            mesa_controller.Update();
+                            
                         }
                     }
                     
