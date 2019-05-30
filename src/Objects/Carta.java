@@ -51,7 +51,7 @@ public class Carta {
     
         String ruta = "";
         
-        ruta = "/utilidades/imagenes/"+this.pinta+"/"+this.numero+".jpg";
+        ruta = "/Utilidades/Images/"+this.pinta+"/"+this.numero+".jpg";
         
         return ruta;
         

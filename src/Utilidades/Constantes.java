@@ -27,6 +27,7 @@ public class Constantes {
     public static ArrayList<byte[]> bufferList_send = new ArrayList<byte[]>();
     public static ArrayList<byte[]> bufferList_recb = new ArrayList<byte[]>();
     
+    public static String numero_jugador = "";
     
     public static String ByteToString(byte b){
 
@@ -43,5 +44,16 @@ public class Constantes {
             
         Carta carta = new Carta(Integer.parseInt(trama.substring(2,6),2), pintas_name[Integer.parseInt(trama.substring(6,8),2)]);
         return carta;
+    }
+    
+    public static boolean validateUser(String trama){
+        
+        System.out.println("User: "+trama.substring(0,2));
+        System.out.println("Miuser: "+numero_jugador);
+        
+        if (trama.substring(0,2).equals(numero_jugador))
+            return true;
+        
+        return false;
     }
 }

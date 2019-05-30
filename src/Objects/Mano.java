@@ -16,6 +16,7 @@ public class Mano {
     public ArrayList<Carta> mano;
 
     public Mano() {
+        this.mano = new ArrayList<Carta>();
     }
     
     public static Mano getInstance() {
@@ -30,5 +31,15 @@ public class Mano {
         mano.add(carta);
     }
     
+    @Override
+    public String toString() {
+        
+        for (int i = 0; i < mano.size(); i++){
+            Carta carta = mano.get(i);
+            System.out.println(carta.toString()+"\n");
+        }
+        
+        return "";
+    }
     
 }

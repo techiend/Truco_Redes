@@ -8,6 +8,7 @@ package Connection;
 import Objects.Mano;
 import Utilidades.Constantes;
 import com.fazecast.jSerialComm.SerialPort;
+import java.awt.Window;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -22,13 +23,14 @@ public class Connection {
     public Connection() {
     }
     
-    public static void connect (String portName)
+    public boolean connect (String portName)
     {
 
-        String flag = "01111110";
 
         SerialPort comPort = SerialPort.getCommPort(portName);
-        comPort.openPort();
+        if (!comPort.openPort())
+            return false;
+            
         comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
 
         Constantes.in = comPort.getInputStream();
@@ -38,6 +40,7 @@ public class Connection {
         (new Thread(new SerialReader(Constantes.in))).start();
         (new Thread(new SerialWriter(Constantes.out))).start();
 
+        System.out.println("Se ha establecido conexion mediante el puerto "+portName);
 //        byte[] trama = new byte[5];
 //        trama[0] = (byte) Short.parseShort(flag, 2);
 //        trama[1] = (byte) Short.parseShort("00110000", 2);
@@ -46,7 +49,7 @@ public class Connection {
 //        trama[4] = (byte) Short.parseShort(flag, 2);
 
 //        addByte(trama);
-
+        return true;
     }
     
 
@@ -73,8 +76,12 @@ public class Connection {
                     
                     if (!Constantes.ByteToString(buffer[1]).equals("00000000")){
                         System.out.println("Estas recibiendo Cartas");
-                        Mano mano = Mano.getInstance();
-                        mano.addCarta(Constantes.stringToCarta(Constantes.ByteToString(buffer[1])));
+                        
+                        if (Constantes.validateUser(Constantes.ByteToString(buffer[1]))){
+
+                            Mano mano = Mano.getInstance();
+                            mano.addCarta(Constantes.stringToCarta(Constantes.ByteToString(buffer[1])));
+                        }
                     }
                     
                     if (!Constantes.ByteToString(buffer[2]).equals("00000000")){
