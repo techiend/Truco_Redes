@@ -9,16 +9,26 @@ import Model.Carta;
 import Model.Mano;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 
 /**
  *
- * @author Carlos Verde
+ * @author Techiend
  */
 public class Mesa_Controller {
     
     private JLabel carta1;
     private JLabel carta2;
     private JLabel carta3;
+    private JTable tableCards;
+
+    public JTable getTableCards() {
+        return tableCards;
+    }
+
+    public void setTableCards(JTable tableCards) {
+        this.tableCards = tableCards;
+    }
 
     public JLabel getCarta1() {
         return carta1;

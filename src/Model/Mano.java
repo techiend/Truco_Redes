@@ -28,7 +28,8 @@ public class Mano {
     }   
     
     public void addCarta(Carta carta){
-        mano.add(carta);
+        if(mano.size() <= 3) // Solamente puede tener 3 cartas en la mano
+            mano.add(carta);
     }
     
     @Override
