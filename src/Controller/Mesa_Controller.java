@@ -7,6 +7,7 @@ package Controller;
 
 import Model.Carta;
 import Model.Mano;
+import Utilidades.Constantes;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -22,8 +23,57 @@ public class Mesa_Controller {
     private JLabel carta1;
     private JLabel carta2;
     private JLabel carta3;
+    private JLabel cartaT00;
+    private JLabel cartaT01;
+    private JLabel cartaT10;
+    private JLabel cartaT11;
+    private JLabel cartaVira;
     private JComboBox cbCartas;
 
+    public Mesa_Controller() {
+        this.mano = Mano.getInstance();
+    }
+    
+    public JLabel getCartaT00() {
+        return cartaT00;
+    }
+
+    public void setCartaT00(JLabel cartaT00) {
+        this.cartaT00 = cartaT00;
+    }
+
+    public JLabel getCartaT01() {
+        return cartaT01;
+    }
+
+    public void setCartaT01(JLabel cartaT01) {
+        this.cartaT01 = cartaT01;
+    }
+
+    public JLabel getCartaT10() {
+        return cartaT10;
+    }
+
+    public void setCartaT10(JLabel cartaT10) {
+        this.cartaT10 = cartaT10;
+    }
+
+    public JLabel getCartaT11() {
+        return cartaT11;
+    }
+
+    public void setCartaT11(JLabel cartaT11) {
+        this.cartaT11 = cartaT11;
+    }
+
+    public JLabel getCartaVira() {
+        return cartaVira;
+    }
+
+    public void setCartaVira(JLabel cartaVira) {
+        this.cartaVira = cartaVira;
+    }
+    
     public JComboBox getCbCartas() {
         return cbCartas;
     }
@@ -54,14 +104,6 @@ public class Mesa_Controller {
 
     public void setCarta3(JLabel carta3) {
         this.carta3 = carta3;
-    }
-    
-
-    public Mesa_Controller() {
-//        this.carta1 = carta1;
-//        this.carta2 = carta2;
-//        this.carta3 = carta3;
-        this.mano = Mano.getInstance();
     }
     
     public static Mesa_Controller getInstance() {
@@ -96,7 +138,9 @@ public class Mesa_Controller {
             }
         }
         
-        
+        if (Constantes.vira != null)
+            cartaVira.setIcon(new ImageIcon(getClass().getResource(Constantes.vira.getImageRoute())));
+              
     
     }
 

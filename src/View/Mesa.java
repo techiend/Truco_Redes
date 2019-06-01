@@ -41,6 +41,11 @@ public class Mesa extends javax.swing.JFrame {
         mesaController.setCarta2(carta2);
         mesaController.setCarta3(carta3);
         mesaController.setCbCartas(cbCartas);
+        mesaController.setCartaT00(cartaT1);
+        mesaController.setCartaT01(cartaT2);
+        mesaController.setCartaT10(cartaT3);
+        mesaController.setCartaT11(cartaT4);
+        mesaController.setCartaVira(cartaVira);
         
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -70,13 +75,14 @@ public class Mesa extends javax.swing.JFrame {
         carta10 = new javax.swing.JLabel();
         carta11 = new javax.swing.JLabel();
         carta12 = new javax.swing.JLabel();
-        tirada1 = new javax.swing.JLabel();
-        carta13 = new javax.swing.JLabel();
-        carta14 = new javax.swing.JLabel();
-        carta15 = new javax.swing.JLabel();
+        cartaVira = new javax.swing.JLabel();
+        cartaT2 = new javax.swing.JLabel();
+        cartaT4 = new javax.swing.JLabel();
+        cartaT3 = new javax.swing.JLabel();
         btnRepartirCards = new javax.swing.JButton();
         cbCartas = new javax.swing.JComboBox<>();
         btnTirarCarta = new javax.swing.JButton();
+        cartaT1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -154,25 +160,25 @@ public class Mesa extends javax.swing.JFrame {
         carta12.setMinimumSize(new java.awt.Dimension(100, 139));
         carta12.setPreferredSize(new java.awt.Dimension(100, 139));
 
-        tirada1.setText("Carta tirada");
-        tirada1.setMaximumSize(new java.awt.Dimension(100, 139));
-        tirada1.setMinimumSize(new java.awt.Dimension(100, 139));
-        tirada1.setPreferredSize(new java.awt.Dimension(100, 139));
+        cartaVira.setText("Carta vira");
+        cartaVira.setMaximumSize(new java.awt.Dimension(100, 139));
+        cartaVira.setMinimumSize(new java.awt.Dimension(100, 139));
+        cartaVira.setPreferredSize(new java.awt.Dimension(100, 139));
 
-        carta13.setText("Carta tirada");
-        carta13.setMaximumSize(new java.awt.Dimension(139, 100));
-        carta13.setMinimumSize(new java.awt.Dimension(139, 100));
-        carta13.setPreferredSize(new java.awt.Dimension(139, 100));
+        cartaT2.setText("Carta tirada");
+        cartaT2.setMaximumSize(new java.awt.Dimension(139, 100));
+        cartaT2.setMinimumSize(new java.awt.Dimension(139, 100));
+        cartaT2.setPreferredSize(new java.awt.Dimension(139, 100));
 
-        carta14.setText("Carta tirada");
-        carta14.setMaximumSize(new java.awt.Dimension(139, 100));
-        carta14.setMinimumSize(new java.awt.Dimension(139, 100));
-        carta14.setPreferredSize(new java.awt.Dimension(139, 100));
+        cartaT4.setText("Carta tirada");
+        cartaT4.setMaximumSize(new java.awt.Dimension(139, 100));
+        cartaT4.setMinimumSize(new java.awt.Dimension(139, 100));
+        cartaT4.setPreferredSize(new java.awt.Dimension(139, 100));
 
-        carta15.setText("Carta tirada");
-        carta15.setMaximumSize(new java.awt.Dimension(100, 139));
-        carta15.setMinimumSize(new java.awt.Dimension(100, 139));
-        carta15.setPreferredSize(new java.awt.Dimension(100, 139));
+        cartaT3.setText("Carta tirada");
+        cartaT3.setMaximumSize(new java.awt.Dimension(100, 139));
+        cartaT3.setMinimumSize(new java.awt.Dimension(100, 139));
+        cartaT3.setPreferredSize(new java.awt.Dimension(100, 139));
 
         btnRepartirCards.setText("Repartir");
         btnRepartirCards.addActionListener(new java.awt.event.ActionListener() {
@@ -182,6 +188,11 @@ public class Mesa extends javax.swing.JFrame {
         });
 
         btnTirarCarta.setText("Tirar carta");
+
+        cartaT1.setText("Carta tirada");
+        cartaT1.setMaximumSize(new java.awt.Dimension(100, 139));
+        cartaT1.setMinimumSize(new java.awt.Dimension(100, 139));
+        cartaT1.setPreferredSize(new java.awt.Dimension(100, 139));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -205,16 +216,16 @@ public class Mesa extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(carta8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(carta14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(cartaT4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(228, 228, 228)
                                         .addComponent(carta12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                                .addComponent(carta15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(cartaT3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
-                                                .addComponent(carta13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addComponent(cartaT2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(jPanel1Layout.createSequentialGroup()
                                                 .addComponent(carta5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -226,18 +237,21 @@ public class Mesa extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(carta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(carta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(carta3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(tirada1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(carta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(carta3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(90, 90, 90)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(carta11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(carta9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(carta10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(carta10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cartaVira, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(363, Short.MAX_VALUE)
+                    .addComponent(cartaT1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(337, 337, 337)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -246,7 +260,8 @@ public class Mesa extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(carta6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(carta5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(carta12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(carta12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cartaVira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -255,15 +270,15 @@ public class Mesa extends javax.swing.JFrame {
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(carta10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(carta13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cartaT2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addComponent(carta4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(carta8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(carta14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(carta15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cartaT4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(cartaT3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -277,14 +292,17 @@ public class Mesa extends javax.swing.JFrame {
                             .addComponent(cbCartas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(tirada1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(167, 167, 167)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(carta3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(carta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(carta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(93, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                    .addContainerGap(421, Short.MAX_VALUE)
+                    .addComponent(cartaT1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(240, 240, 240)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -351,9 +369,6 @@ public class Mesa extends javax.swing.JFrame {
     private javax.swing.JLabel carta10;
     private javax.swing.JLabel carta11;
     private javax.swing.JLabel carta12;
-    private javax.swing.JLabel carta13;
-    private javax.swing.JLabel carta14;
-    private javax.swing.JLabel carta15;
     private javax.swing.JLabel carta2;
     private javax.swing.JLabel carta3;
     private javax.swing.JLabel carta4;
@@ -362,8 +377,12 @@ public class Mesa extends javax.swing.JFrame {
     private javax.swing.JLabel carta7;
     private javax.swing.JLabel carta8;
     private javax.swing.JLabel carta9;
+    private javax.swing.JLabel cartaT1;
+    private javax.swing.JLabel cartaT2;
+    private javax.swing.JLabel cartaT3;
+    private javax.swing.JLabel cartaT4;
+    private javax.swing.JLabel cartaVira;
     private javax.swing.JComboBox<String> cbCartas;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel tirada1;
     // End of variables declaration//GEN-END:variables
 }

@@ -20,6 +20,9 @@ public class GameConfig extends javax.swing.JFrame {
      */
     public GameConfig() {
         initComponents();
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        setTitle(this.getClass().getSimpleName());
     }
 
     /**

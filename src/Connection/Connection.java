@@ -67,12 +67,13 @@ public class Connection {
         
         notificacion += Constantes.numero_jugador + "000" + "00" + "1";
         
-        byte[] trama = new byte[5];
+        byte[] trama = new byte[6];
         trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
         trama[1] = (byte) Short.parseShort("00000000", 2);
         trama[2] = (byte) Short.parseShort("00000000", 2);
         trama[3] = (byte) Short.parseShort(notificacion, 2);
-        trama[4] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[4] = (byte) Short.parseShort("00000000", 2);
+        trama[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
     } 
@@ -87,12 +88,31 @@ public class Connection {
         
         notificacion += fmt.toString() + carta.getNumBin() + carta.getBinaryPinta();
         
-        byte[] trama = new byte[5];
+        byte[] trama = new byte[6];
         trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
         trama[1] = (byte) Short.parseShort(notificacion, 2);
         trama[2] = (byte) Short.parseShort("00000000", 2);
         trama[3] = (byte) Short.parseShort("00000000", 2);
-        trama[4] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[4] = (byte) Short.parseShort("00000000", 2);
+        trama[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+
+        addByte(trama);
+        
+    }
+    
+    public void sendCartaVira(Carta carta){
+        
+        String notificacion = "";
+        
+        notificacion += "00" + carta.getNumBin() + carta.getBinaryPinta();
+        
+        byte[] trama = new byte[6];
+        trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[1] = (byte) Short.parseShort("00000000", 2);
+        trama[2] = (byte) Short.parseShort("00000000", 2);
+        trama[3] = (byte) Short.parseShort("00000000", 2);
+        trama[4] = (byte) Short.parseShort(notificacion, 2);
+        trama[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
         
@@ -118,13 +138,13 @@ public class Connection {
 
         public void run ()
         {
-            byte[] buffer = new byte[5];
+            byte[] buffer = new byte[6];
             int len = -1;
             try
             {
                 while ( ( len = this.in.read(buffer)) > -1 )
                 {
-                    while (buffer.length<4){}
+                    while (buffer.length<5){}
 
                     // MANEJAR LO RECIBIDO
                     
@@ -159,9 +179,31 @@ public class Connection {
                     }
                     
                     if (!Constantes.ByteToString(buffer[3]).equals("00000000")){
-//                        System.out.println("Estas recibiendo algo en la tercera pos.");
+                        System.out.println("Estas recibiendo algo en la tercera pos.");
                         
                         Constantes.validateTrama3(Constantes.ByteToString(buffer[3]));
+                        
+                    }
+                    
+                    if (!Constantes.ByteToString(buffer[4]).equals("00000000")){
+                        System.out.println("Estas recibiendo la vira");
+                        
+                        if (Constantes.repartidor == 0){
+                            Constantes.vira = Constantes.stringToCarta(Constantes.ByteToString(buffer[4]));
+                            Connection.addByte(buffer);
+                            
+                            Mesa_Controller mesa_controller = Mesa_Controller.getInstance();
+
+                            mesa_controller.UpdateHand();
+                        }
+                        else {
+                            Constantes.vira = Constantes.stringToCarta(Constantes.ByteToString(buffer[4]));
+
+                            Mesa_Controller mesa_controller = Mesa_Controller.getInstance();
+
+                            mesa_controller.UpdateHand();
+                        }
+                        
                         
                     }
 
