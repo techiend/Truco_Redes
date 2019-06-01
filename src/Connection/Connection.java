@@ -6,6 +6,8 @@
 package Connection;
 
 import Controller.Mesa_Controller;
+import Model.Baraja;
+import Model.Carta;
 import Model.Mano;
 import Utilidades.Constantes;
 import com.fazecast.jSerialComm.SerialPort;
@@ -13,7 +15,10 @@ import java.awt.Window;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,13 +26,23 @@ import java.util.Formatter;
  */
 public class Connection {
 
+    public static ArrayList<byte[]> bufferList_send = new ArrayList<byte[]>();
+    
     public Connection() {
     }
+    
+    public static Connection getInstance() {
+        return NewSingletonHolder.INSTANCE;
+    }
+    
+    private static class NewSingletonHolder {
+        private static final Connection INSTANCE = new Connection();
+    }   
     
     public boolean connect (String portName)
     {
 
-
+        
         SerialPort comPort = SerialPort.getCommPort(portName);
         if (!comPort.openPort())
             return false;
@@ -39,20 +54,58 @@ public class Connection {
 
             
         (new Thread(new SerialReader(Constantes.in))).start();
-        (new Thread(new SerialWriter(Constantes.out))).start();
+//        (new Thread(new SerialWriter(Constantes.out))).start();
 
         System.out.println("Se ha establecido conexion mediante el puerto "+portName);
-//        byte[] trama = new byte[5];
-//        trama[0] = (byte) Short.parseShort(flag, 2);
-//        trama[1] = (byte) Short.parseShort("00110000", 2);
-//        trama[2] = (byte) Short.parseShort("00000000", 2);
-//        trama[3] = (byte) Short.parseShort("00000000", 2);
-//        trama[4] = (byte) Short.parseShort(flag, 2);
-
-//        addByte(trama);
+        
         return true;
     }
     
+    public static void notificarRepartidor(){
+    
+        String notificacion = "";
+        
+        notificacion += Constantes.numero_jugador + "000" + "00" + "1";
+        
+        byte[] trama = new byte[5];
+        trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[1] = (byte) Short.parseShort("00000000", 2);
+        trama[2] = (byte) Short.parseShort("00000000", 2);
+        trama[3] = (byte) Short.parseShort(notificacion, 2);
+        trama[4] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+
+        addByte(trama);
+    } 
+    
+    public void sendCarta(Carta carta, int jugador){
+        
+        String notificacion = "";
+        
+        
+        Formatter fmt = new Formatter();
+        fmt.format("%02d", Integer.parseInt(Integer.toBinaryString(jugador)));
+        
+        notificacion += fmt.toString() + carta.getNumBin() + carta.getBinaryPinta();
+        
+        byte[] trama = new byte[5];
+        trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[1] = (byte) Short.parseShort(notificacion, 2);
+        trama[2] = (byte) Short.parseShort("00000000", 2);
+        trama[3] = (byte) Short.parseShort("00000000", 2);
+        trama[4] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+
+        addByte(trama);
+        
+    }
+    
+    public static void addByte(byte[] trama){
+        try {
+            Constantes.out.write(trama);
+//            System.out.println("Envio");
+        } catch (IOException ex) {
+            Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
     public static class SerialReader implements Runnable
     {
@@ -76,7 +129,7 @@ public class Connection {
                     // MANEJAR LO RECIBIDO
                     
                     if (!Constantes.ByteToString(buffer[1]).equals("00000000")){
-                        System.out.println("Estas recibiendo Cartas");
+//                        System.out.println("Estas recibiendo Cartas");
                         
                         if (Constantes.validateUser(Constantes.ByteToString(buffer[1]))){
 
@@ -85,8 +138,19 @@ public class Connection {
                             
                             Mesa_Controller mesa_controller = Mesa_Controller.getInstance();
                             
-                            mesa_controller.Update();
+                            mesa_controller.UpdateHand();
                             
+                        }
+                        else{
+                            if (Constantes.repartidor == 0){
+                                Connection.addByte(buffer);
+                            }
+                            else{
+                                //Agrego la carta de nuevo a la baraja
+//                                System.out.println("Le devuelvo la carta al mazo");
+                                Baraja baraja = Baraja.getInstance();
+                                baraja.addCarta(Constantes.stringToCarta(Constantes.ByteToString(buffer[1])));
+                            }
                         }
                     }
                     
@@ -95,7 +159,10 @@ public class Connection {
                     }
                     
                     if (!Constantes.ByteToString(buffer[3]).equals("00000000")){
-                        System.out.println("Estas recibiendo algo en la tercera pos.");
+//                        System.out.println("Estas recibiendo algo en la tercera pos.");
+                        
+                        Constantes.validateTrama3(Constantes.ByteToString(buffer[3]));
+                        
                     }
 
                 }
@@ -124,10 +191,11 @@ public class Connection {
             try
             {
                 while (true) {
-                    if (Constantes.bufferList_send.size() != 0) {
-                        while (Constantes.bufferList_send.size() != 0) {
-                            this.out.write(Constantes.bufferList_send.get(0));
-                            Constantes.bufferList_send.remove(0);
+                    if (bufferList_send.size() != 0) {
+                        while (bufferList_send.size() != 0) {
+                            Constantes.out.write(bufferList_send.get(0));
+                            System.out.println("envio: "+bufferList_send.size());
+                            bufferList_send.remove(0);
                         }
                     }
                 }

@@ -7,6 +7,7 @@ package Model;
 
 import Utilidades.Constantes;
 import java.util.ArrayList;
+import java.util.Formatter;
 
 /**
  *
@@ -30,6 +31,10 @@ public class Baraja {
         private static final Baraja INSTANCE = new Baraja();
     }   
     
+    public void addCarta(Carta carta){
+        mazo.add(carta);
+    }
+    
     private void generateMazo(){
     
         for (int i = 0; i < Constantes.pintas_name.length; i++){
@@ -38,7 +43,9 @@ public class Baraja {
             
                 if (j != 8 && j != 9){
                 
-                    Carta carta = new Carta(j, Constantes.pintas_name[i]);
+                    Formatter fmt = new Formatter();
+                    fmt.format("%04d", Integer.parseInt(Integer.toBinaryString(j)));
+                    Carta carta = new Carta(j, Constantes.pintas_name[i], fmt.toString());
                     mazo.add(carta);
                     
                 }

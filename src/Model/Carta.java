@@ -12,12 +12,23 @@ package Model;
 public class Carta {
     
     private int numero;
+    private String numBin;
     private String pinta;
 
-    public Carta(int numero, String pinta) {
+    public Carta(int numero, String pinta, String binary) {
         this.numero = numero;
         this.pinta = pinta;
+        this.numBin = binary;
     }
+
+    public String getNumBin() {
+        return numBin;
+    }
+
+    public void setNumBin(String numBin) {
+        this.numBin = numBin;
+    }
+    
 
     public int getNumero() {
         return numero;
@@ -54,6 +65,25 @@ public class Carta {
         ruta = "/Utilidades/Images/"+this.pinta+"/"+this.numero+".jpg";
         
         return ruta;
+        
+    }
+    
+    public String getBinaryPinta(){
+    
+        switch (this.pinta){
+        
+            case "basto":
+                return "00";
+            case "copa":
+                return "01";
+            case "espada":
+                return "10";
+            case "oro":
+                return "11";
+           
+        }
+        
+        return "00";
         
     }
     

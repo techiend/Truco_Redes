@@ -8,6 +8,7 @@ package Controller;
 import Model.Carta;
 import Model.Mano;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
@@ -17,19 +18,20 @@ import javax.swing.JTable;
  */
 public class Mesa_Controller {
     
+    private Mano mano;
     private JLabel carta1;
     private JLabel carta2;
     private JLabel carta3;
-    private JTable tableCards;
+    private JComboBox cbCartas;
 
-    public JTable getTableCards() {
-        return tableCards;
+    public JComboBox getCbCartas() {
+        return cbCartas;
     }
 
-    public void setTableCards(JTable tableCards) {
-        this.tableCards = tableCards;
+    public void setCbCartas(JComboBox cbCartas) {
+        this.cbCartas = cbCartas;
     }
-
+    
     public JLabel getCarta1() {
         return carta1;
     }
@@ -54,7 +56,6 @@ public class Mesa_Controller {
         this.carta3 = carta3;
     }
     
-    private Mano mano;
 
     public Mesa_Controller() {
 //        this.carta1 = carta1;
@@ -71,26 +72,31 @@ public class Mesa_Controller {
         private static final Mesa_Controller INSTANCE = new Mesa_Controller();
     }  
     
-    public void Update(){
+    public void UpdateHand(){
     
+        cbCartas.removeAllItems();
         for (int i = 0; i < mano.mano.size(); i++){
             Carta carta = mano.mano.get(i);
             
+            cbCartas.addItem(carta.getNumero());
             if (i == 0){
-                System.out.println(carta.getImageRoute());
+//                System.out.println(carta.getImageRoute());
                 carta1.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
+                
             }
             
             if (i == 1){
-                System.out.println(carta.getImageRoute());
+//                System.out.println(carta.getImageRoute());
                 carta2.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
             }
             
             if (i == 2){
-                System.out.println(carta.getImageRoute());
+//                System.out.println(carta.getImageRoute());
                 carta3.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
             }
         }
+        
+        
     
     }
 

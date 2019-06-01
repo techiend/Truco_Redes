@@ -3,46 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Start;
+package View;
 
 import Connection.Connection;
-import View.Mesa;
-import Model.Baraja;
 import Utilidades.Constantes;
-import View.GameConfig;
-import com.fazecast.jSerialComm.SerialPort;
-import java.util.Collections;
-import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author Techiend
  */
-public class Init extends javax.swing.JFrame {
+public class GameConfig extends javax.swing.JFrame {
 
     /**
-     * Creates new form Init
+     * Creates new form GameConfig
      */
-    public Init() {
+    public GameConfig() {
         initComponents();
-        fillComboCOM();
-        this.setResizable(false);
-        this.setLocationRelativeTo(null);
-        setTitle("Inicio");
-        
-    }
-    
-    private void fillComboCOM(){
-        
-        cbCom.removeAllItems();
-        cbCom.addItem("---------");
-        
-        for (int i = 0; i < SerialPort.getCommPorts().length; i++){
-            cbCom.addItem(SerialPort.getCommPorts()[i].getSystemPortName());     
-        }
-        
-        
     }
 
     /**
@@ -59,20 +36,25 @@ public class Init extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnSelectPort = new javax.swing.JButton();
-        cbCom = new javax.swing.JComboBox<>();
+        cbPlayer = new javax.swing.JComboBox<>();
+        chkRepartidor = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel2.setText("Truco (Proyecto de Redes I)");
 
-        jLabel3.setText("Nombre del puerto:");
+        jLabel3.setText("Jugador:");
 
-        btnSelectPort.setText("Seleccionar Puerto");
+        btnSelectPort.setText("Comenzar");
         btnSelectPort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelectPortActionPerformed(evt);
             }
         });
+
+        cbPlayer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jugador 1", "Jugador 2", "Jugador 3", "Jugador 4" }));
+
+        chkRepartidor.setText("Repartidor");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,12 +65,17 @@ public class Init extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator1)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnSelectPort))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(cbCom, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                        .addComponent(btnSelectPort)))
+                        .addGap(6, 6, 6)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cbPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                                .addComponent(chkRepartidor)))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -99,11 +86,13 @@ public class Init extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSelectPort)
-                    .addComponent(cbCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(chkRepartidor)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(cbPlayer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSelectPort)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -111,7 +100,7 @@ public class Init extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,62 +112,41 @@ public class Init extends javax.swing.JFrame {
 
     private void btnSelectPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectPortActionPerformed
         // TODO add your handling code here:
+
+        switch(cbPlayer.getSelectedItem().toString()){
         
-        if (!cbCom.getSelectedItem().toString().equals("---------")){
+            case "Jugador 1":
+                Constantes.numero_jugador = "00";
+                break;
+            case "Jugador 2":
+                Constantes.numero_jugador = "01";
+                break;
+            case "Jugador 3":
+                Constantes.numero_jugador = "10";
+                break;
+            case "Jugador 4":
+                Constantes.numero_jugador = "11";
+                break;
             
+        } 
+        
+        
+        if (chkRepartidor.isSelected()){
+        
             Connection conn = Connection.getInstance();
-            if (conn.connect(cbCom.getSelectedItem().toString())){
+            conn.notificarRepartidor();
+            
+            while (Constantes.repartidor < 0){} // no se movera hasta que le llegue respuesta
 
-                Baraja barajaPartida = Baraja.getInstance();
-                Collections.shuffle(barajaPartida.mazo);
-
-                GameConfig abrir = new GameConfig();
-                abrir.setVisible(true);
-                dispose();
-                
-            }
-            else{
-                JOptionPane.showMessageDialog(null, "Error al establecer conexion con el puerto "+cbCom.getSelectedItem().toString()+".", "Error", JOptionPane.ERROR_MESSAGE);
-            }
         }
         else{
-            JOptionPane.showMessageDialog(null, "Por favor, selecciona un puerto", "Error", JOptionPane.ERROR_MESSAGE);
+            Constantes.repartidor = 0;
         }
         
-//        if (!txtPortName.getText().equals("")){
-//            if (!txtNumJugador.getText().equals("") ){
-//
-//                if (txtNumJugador.getText().equals("00") || txtNumJugador.getText().equals("01") || txtNumJugador.getText().equals("10") || txtNumJugador.getText().equals("11")){
-//
-//
-//                    Connection conn = new Connection();
-//                    if (conn.connect(txtPortName.getText())){
-//
-//                        Baraja barajaPartida = Baraja.getInstance();
-//                        Collections.shuffle(barajaPartida.mazo);
-//
-//                        Constantes.numero_jugador = txtNumJugador.getText();
-//                        
-//                        Mesa abrir = new Mesa();
-//                        abrir.setVisible(true);
-//                        dispose();
-//                    }
-//                    else{
-//                        JOptionPane.showMessageDialog(null, "Puerto no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
-//                    }
-//                }
-//                else{
-//                    JOptionPane.showMessageDialog(null, "Numero de jugador incorrecto.", "Error", JOptionPane.ERROR_MESSAGE);
-//                }
-//
-//            }
-//            else{
-//                JOptionPane.showMessageDialog(null, "Numero de jugador no puede ser vacio.", "Error", JOptionPane.ERROR_MESSAGE);
-//            }
-//        }
-//        else{
-//            JOptionPane.showMessageDialog(null, "Puerto no puede ser vacio.", "Error", JOptionPane.ERROR_MESSAGE);
-//        }
+        
+        Mesa abrir = new Mesa();
+        abrir.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_btnSelectPortActionPerformed
 
@@ -199,27 +167,28 @@ public class Init extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Init.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameConfig.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Init.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameConfig.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Init.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameConfig.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Init.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GameConfig.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Init().setVisible(true);
+                new GameConfig().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSelectPort;
-    private javax.swing.JComboBox<String> cbCom;
+    private javax.swing.JComboBox<String> cbPlayer;
+    private javax.swing.JCheckBox chkRepartidor;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

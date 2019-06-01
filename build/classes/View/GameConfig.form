@@ -23,7 +23,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+          <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -41,15 +41,22 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jSeparator1" max="32767" attributes="0"/>
+                      <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel2" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="cbCom" max="32767" attributes="0"/>
-                              <Component id="jLabel3" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace pref="56" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="btnSelectPort" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="6" pref="6" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cbPlayer" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="jLabel3" min="-2" pref="87" max="-2" attributes="0"/>
+                                  <EmptySpace pref="108" max="32767" attributes="0"/>
+                                  <Component id="chkRepartidor" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -64,12 +71,14 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnSelectPort" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="cbCom" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="chkRepartidor" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="cbPlayer" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="btnSelectPort" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -85,26 +94,36 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel3">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Nombre del puerto:"/>
+            <Property name="text" type="java.lang.String" value="Jugador:"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="btnSelectPort">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Seleccionar Puerto"/>
+            <Property name="text" type="java.lang.String" value="Comenzar"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelectPortActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="cbCom">
+        <Component class="javax.swing.JComboBox" name="cbPlayer">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
+              <StringArray count="4">
+                <StringItem index="0" value="Jugador 1"/>
+                <StringItem index="1" value="Jugador 2"/>
+                <StringItem index="2" value="Jugador 3"/>
+                <StringItem index="3" value="Jugador 4"/>
+              </StringArray>
             </Property>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JCheckBox" name="chkRepartidor">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Repartidor"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

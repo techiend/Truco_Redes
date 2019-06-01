@@ -5,6 +5,8 @@
  */
 package Utilidades;
 
+import Connection.Connection;
+import Model.Baraja;
 import Model.Carta;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -24,10 +26,17 @@ public class Constantes {
     public static String msg_flag = "01111110";
     public static InputStream in;
     public static OutputStream out;
-    public static ArrayList<byte[]> bufferList_send = new ArrayList<byte[]>();
     public static ArrayList<byte[]> bufferList_recb = new ArrayList<byte[]>();
     
     public static String numero_jugador = "";
+    public static int max_jugadores = 4;
+    public static int max_cartas_por_jugador = 3;
+    
+    // -1 - Nada
+    //  0 - No lo eres
+    //  1 - Lo eres
+    public static int repartidor = -1;
+    public static String numero_jugador_repartidor = "";
     
     public static String ByteToString(byte b){
 
@@ -40,20 +49,104 @@ public class Constantes {
 
     }
     
-    public static Carta stringToCarta(String trama){
+    public static void repartirCartas(){
+        
+        System.out.println("Repartiendo las cartas.");
+        
+        for (int i = 0; i < max_jugadores; i++){
+        
+            for (int j = 0; j < max_cartas_por_jugador; j++){
             
-        Carta carta = new Carta(Integer.parseInt(trama.substring(2,6),2), pintas_name[Integer.parseInt(trama.substring(6,8),2)]);
+                Connection conn = Connection.getInstance();
+                Baraja baraja = Baraja.getInstance();
+                
+//                System.out.println("Tamano baraja: "+baraja.mazo.size());
+                
+                conn.sendCarta(baraja.mazo.get(0), i);
+                baraja.mazo.remove(0);
+                
+            }
+        
+        }
+    
+    }
+    
+    public static Carta stringToCarta(String trama){
+        
+        Formatter fmt = new Formatter();
+        fmt.format("%04d", Integer.parseInt(Integer.toBinaryString(Integer.parseInt(trama.substring(2,6),2))));
+        
+        Carta carta = new Carta(Integer.parseInt(trama.substring(2,6),2), pintas_name[Integer.parseInt(trama.substring(6,8),2)], fmt.toString());
+//        System.out.println("Carta: "+carta.toString());
         return carta;
     }
     
     public static boolean validateUser(String trama){
         
-        System.out.println("User: "+trama.substring(0,2));
-        System.out.println("Miuser: "+numero_jugador);
+//        System.out.println("User: "+trama.substring(0,2));
+//        System.out.println("Miuser: "+numero_jugador);
         
         if (trama.substring(0,2).equals(numero_jugador))
             return true;
         
         return false;
+    }
+    
+    public static void validateTrama3(String trama){
+    
+        if (!trama.substring(0, 2).equals(numero_jugador)){
+            // Si la trama que recibes no fue enviada por ti y no fue modificada
+            
+            
+            if (repartidor == 1){
+                // Yo soy el repartidor, modifico la trama y la envio al siguiente
+                String notificacion = "";
+        
+                notificacion += trama.substring(0, 2) + "000" + Constantes.numero_jugador + "0";
+
+                byte[] tramaB = new byte[5];
+                tramaB[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+                tramaB[1] = (byte) Short.parseShort("00000000", 2);
+                tramaB[2] = (byte) Short.parseShort("00000000", 2);
+                tramaB[3] = (byte) Short.parseShort(notificacion, 2);
+                tramaB[4] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+
+                Connection.addByte(tramaB);
+            }
+            else if(repartidor == 0){
+                // si no soy el repartidor, pues.... envio la trama al siguiente
+                
+                
+                byte[] tramaB = new byte[5];
+                tramaB[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+                tramaB[1] = (byte) Short.parseShort("00000000", 2);
+                tramaB[2] = (byte) Short.parseShort("00000000", 2);
+                tramaB[3] = (byte) Short.parseShort(trama, 2);
+                tramaB[4] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+
+                Connection.addByte(tramaB);
+            }
+            
+        }
+        else{
+            // Si la trama que recibes fue enviada por ti
+            // validamos que no haya sido modificada.
+            
+            
+            if (trama.substring(7, 8).equals("0")){
+                //Si modificaron la trama, te jodiste, ya hay repartidor
+                numero_jugador_repartidor = trama.substring(5,7);
+                repartidor = 0;
+                System.out.println("El repartidor es: "+ numero_jugador_repartidor);
+            }
+            else{
+                //Si no modificaron la trama, tu eres el repartidor
+                repartidor = 1;
+                numero_jugador_repartidor = numero_jugador;
+            
+            }
+            
+        }
+    
     }
 }
