@@ -5,10 +5,23 @@
  */
 package Model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Techiend
  */
 public class Ronda {
+    
+    private ArrayList<Jugada> jugadas = new ArrayList<Jugada>();
+
+    public Ronda() {
+    }
+    
+    public void addJugada (Jugada jugada){
+        
+        this.jugadas.add(jugada);
+        
+    }
     
 }

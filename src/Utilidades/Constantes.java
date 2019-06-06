@@ -8,6 +8,7 @@ package Utilidades;
 import Connection.Connection;
 import Model.Baraja;
 import Model.Carta;
+import Model.Partida;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ public class Constantes {
     public static String msg_flag = "01111110";
     public static InputStream in;
     public static OutputStream out;
-    public static ArrayList<byte[]> bufferList_recb = new ArrayList<byte[]>();
     
     public static String numero_jugador = "";
     public static int max_jugadores = 4;
