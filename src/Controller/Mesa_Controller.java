@@ -140,7 +140,18 @@ public class Mesa_Controller {
         
         if (Constantes.vira != null)
             cartaVira.setIcon(new ImageIcon(getClass().getResource(Constantes.vira.getImageRoute())));
-              
+        else{
+            // VALIDAR QUE PUEDE COMENZAR EL TURNO
+            
+            if (Integer.parseInt(Constantes.numero_jugador_repartidor, 2)+1 
+                    == Integer.parseInt(Constantes.numero_jugador, 2)){
+                
+                System.out.println("Te toca jugar.");
+                
+                
+            }
+            
+        }
     
     }
 

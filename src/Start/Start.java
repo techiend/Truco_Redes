@@ -47,7 +47,8 @@ public class Start {
 
 //        Mano mano = Mano.getInstance();
 //        System.out.println(mano.toString());
-        
+
+
     }
     
 }

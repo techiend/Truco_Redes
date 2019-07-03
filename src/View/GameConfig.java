@@ -6,6 +6,7 @@
 package View;
 
 import Connection.Connection;
+import Model.Juego;
 import Utilidades.Constantes;
 import javax.swing.JOptionPane;
 
@@ -146,6 +147,8 @@ public class GameConfig extends javax.swing.JFrame {
             Constantes.repartidor = 0;
         }
         
+        Juego game = Juego.getInstance();
+        JOptionPane.showMessageDialog(null, "El numero de tu grupo es: "+game.getNumero_de_grupo(), "INFO", JOptionPane.INFORMATION_MESSAGE);
         
         Mesa abrir = new Mesa();
         abrir.setVisible(true);
