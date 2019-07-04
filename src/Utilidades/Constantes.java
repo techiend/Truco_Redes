@@ -23,6 +23,7 @@ public class Constantes {
     public static String[] pintas_name = {"basto","copa","espada","oro"};
     public static String[] pintas_cod = {"00","01","10","11"};
     public static int num_cartas = 40;
+    public static ArrayList jugadores = new ArrayList();
     
     public static String msg_flag = "01111110";
     public static InputStream in;
@@ -32,6 +33,7 @@ public class Constantes {
     public static int max_jugadores = 4;
     public static int max_cartas_por_jugador = 3;
     public static Carta vira;
+    public static int trama6 = 0;
     
     // -1 - Nada
     //  0 - No lo eres
@@ -98,7 +100,7 @@ public class Constantes {
     }
     
     public static void validateTrama3(String trama){
-    
+        
         if (!trama.substring(0, 2).equals(numero_jugador)){
             // Si la trama que recibes no fue enviada por ti y no fue modificada
             
@@ -115,7 +117,9 @@ public class Constantes {
                 tramaB[2] = (byte) Short.parseShort("00000000", 2);
                 tramaB[3] = (byte) Short.parseShort(notificacion, 2);
                 tramaB[4] = (byte) Short.parseShort("00000000", 2);
-                tramaB[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+                tramaB[5] = (byte) Short.parseShort("00000000", 2);
+                tramaB[6] = (byte) Short.parseShort("00000000", 2);
+                tramaB[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
                 Connection.addByte(tramaB);
             }
@@ -123,13 +127,17 @@ public class Constantes {
                 // si no soy el repartidor, pues.... envio la trama al siguiente
                 
                 
+                numero_jugador_repartidor = trama.substring(0,2);
+                
                 byte[] tramaB = new byte[6];
                 tramaB[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
                 tramaB[1] = (byte) Short.parseShort("00000000", 2);
                 tramaB[2] = (byte) Short.parseShort("00000000", 2);
                 tramaB[3] = (byte) Short.parseShort(trama, 2);
                 tramaB[4] = (byte) Short.parseShort("00000000", 2);
-                tramaB[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+                tramaB[5] = (byte) Short.parseShort("00000000", 2);
+                tramaB[6] = (byte) Short.parseShort("00000000", 2);
+                tramaB[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
                 Connection.addByte(tramaB);
             }

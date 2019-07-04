@@ -11,6 +11,7 @@ import Model.Baraja;
 import Model.Carta;
 import Model.Mano;
 import Utilidades.Constantes;
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.Collections;
@@ -35,6 +36,8 @@ public class Mesa extends javax.swing.JFrame {
             btnRepartirCards.setVisible(false);
         }
         
+        lbTurno.setBackground(Color.GRAY);
+            
         Mesa_Controller mesaController = Mesa_Controller.getInstance();
         
         mesaController.setCarta1(carta1);
@@ -46,6 +49,7 @@ public class Mesa extends javax.swing.JFrame {
         mesaController.setCartaT10(cartaT3);
         mesaController.setCartaT11(cartaT4);
         mesaController.setCartaVira(cartaVira);
+        mesaController.setTurno(lbTurno);
         
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -83,6 +87,7 @@ public class Mesa extends javax.swing.JFrame {
         cbCartas = new javax.swing.JComboBox<>();
         btnTirarCarta = new javax.swing.JButton();
         cartaT1 = new javax.swing.JLabel();
+        lbTurno = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -194,6 +199,10 @@ public class Mesa extends javax.swing.JFrame {
         cartaT1.setMinimumSize(new java.awt.Dimension(100, 139));
         cartaT1.setPreferredSize(new java.awt.Dimension(100, 139));
 
+        lbTurno.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbTurno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbTurno.setText("TURNO");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -218,7 +227,8 @@ public class Mesa extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(cartaT4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(228, 228, 228)
+                                        .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(128, 128, 128)
                                         .addComponent(carta12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,11 +267,13 @@ public class Mesa extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(carta6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(carta5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(carta12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cartaVira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(carta6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(carta5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(carta12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cartaVira, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lbTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -384,5 +396,6 @@ public class Mesa extends javax.swing.JFrame {
     private javax.swing.JLabel cartaVira;
     private javax.swing.JComboBox<String> cbCartas;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbTurno;
     // End of variables declaration//GEN-END:variables
 }

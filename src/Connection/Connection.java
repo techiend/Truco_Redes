@@ -73,7 +73,9 @@ public class Connection {
         trama[2] = (byte) Short.parseShort("00000000", 2);
         trama[3] = (byte) Short.parseShort(notificacion, 2);
         trama[4] = (byte) Short.parseShort("00000000", 2);
-        trama[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[5] = (byte) Short.parseShort("00000000", 2);
+        trama[6] = (byte) Short.parseShort("00000000", 2);
+        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
     } 
@@ -94,7 +96,9 @@ public class Connection {
         trama[2] = (byte) Short.parseShort("00000000", 2);
         trama[3] = (byte) Short.parseShort("00000000", 2);
         trama[4] = (byte) Short.parseShort("00000000", 2);
-        trama[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[5] = (byte) Short.parseShort("00000000", 2);
+        trama[6] = (byte) Short.parseShort("00000000", 2);
+        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
         
@@ -112,7 +116,9 @@ public class Connection {
         trama[2] = (byte) Short.parseShort("00000000", 2);
         trama[3] = (byte) Short.parseShort("00000000", 2);
         trama[4] = (byte) Short.parseShort(notificacion, 2);
-        trama[5] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[5] = (byte) Short.parseShort("00000000", 2);
+        trama[6] = (byte) Short.parseShort("00000000", 2);
+        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
         
@@ -121,7 +127,7 @@ public class Connection {
     public static void addByte(byte[] trama){
         try {
             Constantes.out.write(trama);
-//            System.out.println("Envio");
+            System.out.println("Envio");
         } catch (IOException ex) {
             Logger.getLogger(Connection.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -179,10 +185,10 @@ public class Connection {
                     }
                     
                     if (!Constantes.ByteToString(buffer[3]).equals("00000000")){
-                        System.out.println("Estas recibiendo algo en la tercera pos.");
                         
                         Constantes.validateTrama3(Constantes.ByteToString(buffer[3]));
                         
+                        System.out.println("Listo, seteado el Repartidor.");
                     }
                     
                     if (!Constantes.ByteToString(buffer[4]).equals("00000000")){
@@ -204,6 +210,129 @@ public class Connection {
                             mesa_controller.UpdateHand();
                         }
                         
+                        System.out.println("Repartidor: "+Constantes.numero_jugador_repartidor);
+                        System.out.println("Jugador: "+Constantes.numero_jugador);
+                        
+                        if ((Integer.parseInt(Constantes.numero_jugador_repartidor, 2) == Integer.parseInt(Constantes.numero_jugador, 2)-1))
+                        {
+                            System.out.println("Te toca jugar.");
+                            Mesa_Controller mesaController = Mesa_Controller.getInstance();
+                            mesaController.UpdateTurno(true);
+                        }
+                        else{
+                            System.out.println("No te toca jugar.");
+                            Mesa_Controller mesaController = Mesa_Controller.getInstance();
+                            mesaController.UpdateTurno(false);
+                        }
+                        
+                        
+                    }
+                    
+                    if (!Constantes.ByteToString(buffer[5]).equals("00000000")){
+                        System.out.println("Estas recibiendo que una persona hizo un canto.");
+                    }
+                    
+                    if (!Constantes.ByteToString(buffer[6]).equals("00000000")){
+                        System.out.println("Estas recibiendo lista de jugadores: "+Constantes.trama6);
+                        
+                        String lista = Constantes.ByteToString(buffer[6]);
+                                
+                        if (Constantes.repartidor == 1){
+                            //Si recibo esta trama y soy el repartidor, es porque ya la envie, so es el chequeo de la lista
+                            Constantes.trama6++;
+                            
+                            // Guardo todo para saber quien juega
+                            
+                            String j1 = lista.substring(0,2);
+                            String j2 = lista.substring(2,4);
+                            String j3 = lista.substring(4,6);
+                            String j4 = lista.substring(6,8);
+
+                            if (j1.equals("01")){
+                                System.out.println("Jugador #1 esta en el juego.");
+                                Constantes.jugadores.add("00");
+                            }
+                            
+                            if (j2.equals("01")){
+                                System.out.println("Jugador #2 esta en el juego.");
+                                Constantes.jugadores.add("01");
+                            }
+                            
+                            if (j3.equals("01")){
+                                System.out.println("Jugador #3 esta en el juego.");
+                                Constantes.jugadores.add("10");
+                            }
+                            
+                            if (j4.equals("01")){
+                                System.out.println("Jugador #4 esta en el juego.");
+                                Constantes.jugadores.add("11");
+                            }
+                        }
+                        else{
+                            if (Constantes.repartidor == 0){
+                                // La primera vez que la recibo, la lleno con mi asistencia
+                            
+                                int numeroJ = Integer.parseInt(Constantes.numero_jugador, 2);
+                                String listaNew = "";
+                                
+                                switch (numeroJ){
+                                    case 0:
+                                        listaNew = "01" + lista.substring(2, lista.length());
+                                        break;
+                                    case 1:
+                                        listaNew = lista.substring(0, 2);
+                                        listaNew = listaNew + "01" + lista.substring(4, lista.length());
+                                        break;
+                                    case 2:
+                                        listaNew = lista.substring(0, 4);
+                                        listaNew = listaNew + "01" + lista.substring(6, lista.length());
+                                        break;
+                                    case 3:
+                                        listaNew = lista.substring(0, 6);
+                                        listaNew = listaNew + "01";
+                                        break;
+                                }
+                                
+                                buffer[6] = (byte) Short.parseShort(listaNew, 2);
+                                
+                                Constantes.trama6++;
+                                
+                                addByte(buffer);
+                                
+                                System.out.println("Enviando lista de asistencia.");
+                                
+                            }
+                            else{
+                                // La segunda, guardo todo para saber quien juega
+                                
+                                String j1 = lista.substring(0,2);
+                                String j2 = lista.substring(2,4);
+                                String j3 = lista.substring(4,6);
+                                String j4 = lista.substring(6,8);
+
+                                if (j1.equals("01")){
+                                    System.out.println("Jugador #1 esta en el juego.");
+                                    Constantes.jugadores.add("00");
+                                }
+                                
+                                if (j2.equals("01")){
+                                    System.out.println("Jugador #2 esta en el juego.");
+                                    Constantes.jugadores.add("01");
+                                }
+                                
+                                if (j3.equals("01")){
+                                    System.out.println("Jugador #3 esta en el juego.");
+                                    Constantes.jugadores.add("10");
+                                }
+                                
+                                if (j4.equals("01")){
+                                    System.out.println("Jugador #4 esta en el juego.");
+                                    Constantes.jugadores.add("11");
+                                }
+                                
+                                
+                            }
+                        }
                         
                     }
 

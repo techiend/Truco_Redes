@@ -8,6 +8,7 @@ package Controller;
 import Model.Carta;
 import Model.Mano;
 import Utilidades.Constantes;
+import java.awt.Color;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -28,6 +29,23 @@ public class Mesa_Controller {
     private JLabel cartaT10;
     private JLabel cartaT11;
     private JLabel cartaVira;
+    private JLabel turno;
+
+    public Mano getMano() {
+        return mano;
+    }
+
+    public void setMano(Mano mano) {
+        this.mano = mano;
+    }
+
+    public JLabel getTurno() {
+        return turno;
+    }
+
+    public void setTurno(JLabel turno) {
+        this.turno = turno;
+    }
     private JComboBox cbCartas;
 
     public Mesa_Controller() {
@@ -142,20 +160,23 @@ public class Mesa_Controller {
             cartaVira.setIcon(new ImageIcon(getClass().getResource(Constantes.vira.getImageRoute())));
         else{
             // VALIDAR QUE PUEDE COMENZAR EL TURNO
-            
-            if (Integer.parseInt(Constantes.numero_jugador_repartidor, 2)+1 
-                    == Integer.parseInt(Constantes.numero_jugador, 2)){
-                
-                System.out.println("Te toca jugar.");
-                
-                
-            }
-            
+
         }
-    
+
+        
+        
     }
 
+    public void UpdateTurno(boolean isTurno){
     
+        if (isTurno){
+            turno.setBackground(Color.green);
+        }
+        else{
+            turno.setBackground(Color.GRAY);
+        }
+        
+    }
    
     
     
