@@ -35,6 +35,8 @@ public class Constantes {
     public static Carta vira;
     public static int trama6 = 0;
     
+    public static String jugador_turno = "NA";
+    
     // -1 - Nada
     //  0 - No lo eres
     //  1 - Lo eres
@@ -74,6 +76,8 @@ public class Constantes {
         conn.sendCartaVira(baraja.mazo.get(0));
         baraja.mazo.remove(0);
         
+        conn.prepareTramaLista();
+        
         
     
     }
@@ -111,7 +115,7 @@ public class Constantes {
         
                 notificacion += trama.substring(0, 2) + "000" + Constantes.numero_jugador + "0";
 
-                byte[] tramaB = new byte[6];
+                byte[] tramaB = new byte[8];
                 tramaB[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
                 tramaB[1] = (byte) Short.parseShort("00000000", 2);
                 tramaB[2] = (byte) Short.parseShort("00000000", 2);
@@ -129,7 +133,7 @@ public class Constantes {
                 
                 numero_jugador_repartidor = trama.substring(0,2);
                 
-                byte[] tramaB = new byte[6];
+                byte[] tramaB = new byte[8];
                 tramaB[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
                 tramaB[1] = (byte) Short.parseShort("00000000", 2);
                 tramaB[2] = (byte) Short.parseShort("00000000", 2);
@@ -163,5 +167,42 @@ public class Constantes {
             
         }
     
+    }
+    
+    public static void pasarTurno(){
+        
+        if (jugadores.size() == 4){
+            switch(jugador_turno){
+                case "00":
+                    jugador_turno = "01";
+                    break;
+                case "01":
+                    jugador_turno = "10";
+                    break;
+                case "10":
+                    jugador_turno = "11";
+                    break;
+                case "11":
+                    jugador_turno = "00";
+                    break;
+
+            }
+            
+        }
+        else if (jugadores.size() == 2){
+            
+            switch(jugador_turno){
+                case "00":
+                    jugador_turno = "01";
+                    break;
+                case "01":
+                    jugador_turno = "00";
+                    break;
+
+            }
+            
+        }
+        
+        System.out.println("Es el turno de: " + jugador_turno);
     }
 }

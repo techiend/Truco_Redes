@@ -170,10 +170,10 @@ public class Mesa_Controller {
     public void UpdateTurno(boolean isTurno){
     
         if (isTurno){
-            turno.setBackground(Color.green);
+            turno.setText("TURNO");
         }
         else{
-            turno.setBackground(Color.GRAY);
+            turno.setText("");
         }
         
     }

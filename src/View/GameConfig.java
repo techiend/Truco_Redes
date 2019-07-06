@@ -140,8 +140,12 @@ public class GameConfig extends javax.swing.JFrame {
             Connection conn = Connection.getInstance();
             conn.notificarRepartidor();
             
-            while (Constantes.repartidor < 0){} // no se movera hasta que le llegue respuesta
+            while (Constantes.repartidor < 0){
+                System.out.println("Repartidor: " + ((Constantes.repartidor == 0) ? "Soy repartidor.":"No soy repartidor."));
+            } // no se movera hasta que le llegue respuesta
 
+            System.out.println("Listo.");
+            
         }
         else{
             Constantes.repartidor = 0;

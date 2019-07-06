@@ -36,7 +36,7 @@ public class Mesa extends javax.swing.JFrame {
             btnRepartirCards.setVisible(false);
         }
         
-        lbTurno.setBackground(Color.GRAY);
+        lbTurno.setText("");
             
         Mesa_Controller mesaController = Mesa_Controller.getInstance();
         
@@ -200,6 +200,7 @@ public class Mesa extends javax.swing.JFrame {
         cartaT1.setPreferredSize(new java.awt.Dimension(100, 139));
 
         lbTurno.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        lbTurno.setForeground(new java.awt.Color(102, 255, 0));
         lbTurno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbTurno.setText("TURNO");
 
