@@ -57,6 +57,7 @@ public class Mesa extends javax.swing.JFrame {
         
         mesaController.setBtnTirarCarta(btnTirarCarta);
         mesaController.setBtnCanto(btnCanto);
+        mesaController.setBtnRepartirCards(btnRepartirCards);
         
         this.setResizable(false);
         this.setLocationRelativeTo(null);

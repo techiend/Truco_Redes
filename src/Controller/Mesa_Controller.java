@@ -35,6 +35,15 @@ public class Mesa_Controller {
     private JComboBox cbCantos;
     private JButton btnTirarCarta;
     private JButton btnCanto;
+    private JButton btnRepartirCards;
+
+    public JButton getBtnRepartirCards() {
+        return btnRepartirCards;
+    }
+
+    public void setBtnRepartirCards(JButton btnRepartirCards) {
+        this.btnRepartirCards = btnRepartirCards;
+    }
 
     public JButton getBtnTirarCarta() {
         return btnTirarCarta;

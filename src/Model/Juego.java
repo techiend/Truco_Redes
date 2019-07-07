@@ -84,6 +84,19 @@ public class Juego {
         return numero_de_grupo;
     }
     
+    public static int playerNumGroup(String player){
+    
+        if (player.equals("00") || player.equals("10")){
+             return 1;
+        }
+        
+        if (player.equals("01") || player.equals("11")){
+            return 2;
+        }
+        
+        return -1;
+    }
+    
     public static boolean isInMyTeam(String numeroJugador){
         
         if (numero_de_grupo == 1){
@@ -117,5 +130,21 @@ public class Juego {
         return false;
     }
     
+    public static int getPointsOfGroup(int numGrupo){
+        int points = 0;
+        
+        for (int i = 0; i<partidas_jugadas.size(); i++){
+            Partida partida = partidas_jugadas.get(i);
+            
+            if (partida.getNumero_equipo_ganador() == numGrupo){
+            
+                points += partida.getValor_partida();
+                
+            }
+                        
+        }
+        
+        return points;
+    }
     
 }

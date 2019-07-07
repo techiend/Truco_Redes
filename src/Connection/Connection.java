@@ -78,7 +78,8 @@ public class Connection {
         trama[4] = (byte) Short.parseShort("00000000", 2);
         trama[5] = (byte) Short.parseShort("00000000", 2);
         trama[6] = (byte) Short.parseShort("00000000", 2);
-        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[7] = (byte) Short.parseShort("00000000", 2);
+        trama[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
     } 
@@ -101,7 +102,8 @@ public class Connection {
         trama[4] = (byte) Short.parseShort("00000000", 2);
         trama[5] = (byte) Short.parseShort("00000000", 2);
         trama[6] = (byte) Short.parseShort("00000000", 2);
-        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[7] = (byte) Short.parseShort("00000000", 2);
+        trama[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
         
@@ -121,7 +123,8 @@ public class Connection {
         trama[4] = (byte) Short.parseShort(notificacion, 2);
         trama[5] = (byte) Short.parseShort("00000000", 2);
         trama[6] = (byte) Short.parseShort("00000000", 2);
-        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[7] = (byte) Short.parseShort("00000000", 2);
+        trama[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
         
@@ -142,7 +145,8 @@ public class Connection {
         trama[4] = (byte) Short.parseShort("00000000", 2);
         trama[5] = (byte) Short.parseShort(notificacion, 2);
         trama[6] = (byte) Short.parseShort("00000000", 2);
-        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[7] = (byte) Short.parseShort("00000000", 2);
+        trama[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
         
@@ -353,21 +357,42 @@ public class Connection {
                             }
                             else{
                                 System.out.println("Tu companiero envio un canto, reenviando.");
+                                
+                                if (option.equals("10")){
+                                    // CANTO NEGADO
+                                }
+                                else if (option.equals("01")){
+                                    // CANTO APROBADO
+
+                                    //Agarrar el # de partidas.
+                                    int numPartidas = game.getPartidas_jugadas().size();
+                                    //De la ultima partida, agarra el # de rondas.
+//                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                    // De la ultima ronda, agarra el # de jugadas.
+                                    int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+
+                                    // A la ultima jugada, setea el canto y el numero del jugador
+                                    game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setCanto(canto);
+                                    game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setNumero_jugador(jugador);
+
+
+                                    int valor = game.getPartidas_jugadas().get(numPartidas - 1).getValor_partida();
+                                    game.getPartidas_jugadas().get(numPartidas - 1).setValor_partida(valor + 3);
+                                }
+                                
                                 addByte(buffer);
                             }
                             
                         }
                         else{
                             // RECIBI MI TRAMA DE CANTO
-                            
+                            System.out.println("Recibi mi canto");
                             
                             if (option.equals("10")){
                                 // CANTO NEGADO
                                 // Enviar trama de ganar partida 
-                                
-                                //Solicito una nueva partida
-                                game.nextPartida();
-                                
+                                notificarGanador("10");
+                                System.out.println("Ya avise que gane por canto rechazado. Puntos: "+game.getPointsOfGroup(game.getNumero_de_grupo()));
                             }
                             else{
                                 // CANTO APROBADO
@@ -520,6 +545,65 @@ public class Connection {
                         
                         System.out.println("Estas recibiendo una notificacion de ganador.");
                         
+                        String trama = Constantes.ByteToString(buffer[7]);
+                        String ganador = trama.substring(0,2);
+                        String type = trama.substring(6,8);
+                        
+                        Juego game = Juego.getInstance();
+                        
+                        switch (type){
+                            case "01":
+                                //GANARON EL JUEGO.
+                                
+                                if (game.getPointsOfGroup(game.getNumero_de_grupo()) >= 4){
+                                    // GANASTE EL JODIDO JUEGO.
+                                    System.out.println("Ganaste, Felicidades.");
+                                }
+                                else {
+                                    System.out.println("Perdiste, lo siento.");
+                                }
+                                
+                                break;
+                                
+                            case "10":
+                                // ALGUIEN GANO UNA PARTIDA
+                                //Agarrar el # de partidas.
+                                int numPartidas = game.getPartidas_jugadas().size();
+
+                                // A la ultima partida, seteo el grupo ganador
+                                game.getPartidas_jugadas().get(numPartidas - 1).setNumero_equipo_ganador(game.playerNumGroup(ganador));
+
+                                if (game.getPointsOfGroup(game.getNumero_de_grupo()) >= 4){
+                                    // GANASTE EL JODIDO JUEGO.
+                                    System.out.println("Ganaste, Felicidades.");
+                                    notificarGanador("01");
+
+                                }
+                                else{
+                                    // SI NO SE ACABA EL JUEGO AUN, SIGO CAMBIANDO LA PARTIDA
+                                    //Solicito una nueva partida
+                                    game.nextPartida();
+                                    if (Constantes.repartidor == 1){
+                                        // si soy el repartidor, genero la baraja de nuevo.
+
+                                        Baraja baraja = Baraja.getInstance();
+                                        baraja.generateMazo();
+
+                                        Mesa_Controller mesa = Mesa_Controller.getInstance();
+                                        mesa.getBtnRepartirCards().setVisible(true);
+
+                                    }
+
+                                    // No importa el jugador, reinicio su mano.
+                                    Mano mano = Mano.getInstance();
+                                    mano.restoreHand();
+                                }
+                                break;
+                                
+                            case "11":
+                                break;
+                        }
+                        
                     }
                     
                     if (!Constantes.jugador_turno.equals("NA")){
@@ -546,6 +630,30 @@ public class Connection {
             }
         }
 
+    }
+    
+    /**
+     * Enviar la trama notificando que gano algo
+     *
+     * @param tipo 01 (juego) - 10 (partida) - 11 (ronda)
+     */
+    public static void notificarGanador(String tipo){
+        String notificacion = "";
+        
+        notificacion += Constantes.numero_jugador + "0000" + tipo;
+        
+        byte[] trama = new byte[9];
+        trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[1] = (byte) Short.parseShort("00000000", 2);
+        trama[2] = (byte) Short.parseShort("00000000", 2);
+        trama[3] = (byte) Short.parseShort("00000000", 2);
+        trama[4] = (byte) Short.parseShort("00000000", 2);
+        trama[5] = (byte) Short.parseShort("00000000", 2);
+        trama[6] = (byte) Short.parseShort("00000000", 2);
+        trama[7] = (byte) Short.parseShort(notificacion, 2);
+        trama[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+
+        addByte(trama);
     }
     
     public static void prepareTramaLista(){

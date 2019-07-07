@@ -123,7 +123,8 @@ public class Constantes {
                 tramaB[4] = (byte) Short.parseShort("00000000", 2);
                 tramaB[5] = (byte) Short.parseShort("00000000", 2);
                 tramaB[6] = (byte) Short.parseShort("00000000", 2);
-                tramaB[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+                tramaB[7] = (byte) Short.parseShort("00000000", 2);
+                tramaB[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
                 Connection.addByte(tramaB);
             }
@@ -141,7 +142,8 @@ public class Constantes {
                 tramaB[4] = (byte) Short.parseShort("00000000", 2);
                 tramaB[5] = (byte) Short.parseShort("00000000", 2);
                 tramaB[6] = (byte) Short.parseShort("00000000", 2);
-                tramaB[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+                tramaB[7] = (byte) Short.parseShort("00000000", 2);
+                tramaB[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
                 Connection.addByte(tramaB);
             }
