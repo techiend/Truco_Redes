@@ -115,7 +115,7 @@ public class Constantes {
         
                 notificacion += trama.substring(0, 2) + "000" + Constantes.numero_jugador + "0";
 
-                byte[] tramaB = new byte[8];
+                byte[] tramaB = new byte[9];
                 tramaB[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
                 tramaB[1] = (byte) Short.parseShort("00000000", 2);
                 tramaB[2] = (byte) Short.parseShort("00000000", 2);
@@ -133,7 +133,7 @@ public class Constantes {
                 
                 numero_jugador_repartidor = trama.substring(0,2);
                 
-                byte[] tramaB = new byte[8];
+                byte[] tramaB = new byte[9];
                 tramaB[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
                 tramaB[1] = (byte) Short.parseShort("00000000", 2);
                 tramaB[2] = (byte) Short.parseShort("00000000", 2);

@@ -7,6 +7,7 @@ package Model;
 
 import Utilidades.Constantes;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Formatter;
 
 /**
@@ -35,8 +36,9 @@ public class Baraja {
         mazo.add(carta);
     }
     
-    private void generateMazo(){
-    
+    public void generateMazo(){
+        this.mazo = new ArrayList<Carta>();
+        
         for (int i = 0; i < Constantes.pintas_name.length; i++){
         
             for (int j = 1; j < 13; j++){
@@ -52,7 +54,10 @@ public class Baraja {
                 
             }
             
-        }    
+        }
+        
+        
+        Collections.shuffle(this.mazo);
         
     }
 

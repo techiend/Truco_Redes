@@ -8,7 +8,9 @@ package Connection;
 import Controller.Mesa_Controller;
 import Model.Baraja;
 import Model.Carta;
+import Model.Juego;
 import Model.Mano;
+import Model.Partida;
 import Utilidades.Constantes;
 import com.fazecast.jSerialComm.SerialPort;
 import java.awt.Window;
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -67,7 +70,7 @@ public class Connection {
         
         notificacion += Constantes.numero_jugador + "000" + "00" + "1";
         
-        byte[] trama = new byte[8];
+        byte[] trama = new byte[9];
         trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
         trama[1] = (byte) Short.parseShort("00000000", 2);
         trama[2] = (byte) Short.parseShort("00000000", 2);
@@ -90,7 +93,7 @@ public class Connection {
         
         notificacion += fmt.toString() + carta.getNumBin() + carta.getBinaryPinta();
         
-        byte[] trama = new byte[8];
+        byte[] trama = new byte[9];
         trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
         trama[1] = (byte) Short.parseShort(notificacion, 2);
         trama[2] = (byte) Short.parseShort("00000000", 2);
@@ -110,13 +113,34 @@ public class Connection {
         
         notificacion += "00" + carta.getNumBin() + carta.getBinaryPinta();
         
-        byte[] trama = new byte[8];
+        byte[] trama = new byte[9];
         trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
         trama[1] = (byte) Short.parseShort("00000000", 2);
         trama[2] = (byte) Short.parseShort("00000000", 2);
         trama[3] = (byte) Short.parseShort("00000000", 2);
         trama[4] = (byte) Short.parseShort(notificacion, 2);
         trama[5] = (byte) Short.parseShort("00000000", 2);
+        trama[6] = (byte) Short.parseShort("00000000", 2);
+        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+
+        addByte(trama);
+        
+    }
+    
+    
+    public void sendCanto(String canto){
+        
+        String notificacion = "";
+        
+        notificacion += Constantes.numero_jugador + "00" + canto;
+        
+        byte[] trama = new byte[9];
+        trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[1] = (byte) Short.parseShort("00000000", 2);
+        trama[2] = (byte) Short.parseShort("00000000", 2);
+        trama[3] = (byte) Short.parseShort("00000000", 2);
+        trama[4] = (byte) Short.parseShort("00000000", 2);
+        trama[5] = (byte) Short.parseShort(notificacion, 2);
         trama[6] = (byte) Short.parseShort("00000000", 2);
         trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
@@ -144,7 +168,7 @@ public class Connection {
 
         public void run ()
         {
-            byte[] buffer = new byte[8];
+            byte[] buffer = new byte[9];
             int len = -1;
             try
             {
@@ -230,9 +254,145 @@ public class Connection {
                     
                     if (!Constantes.ByteToString(buffer[5]).equals("00000000")){
                         System.out.println("Estas recibiendo que una persona hizo un canto.");
+                        
+                        String trama = Constantes.ByteToString(buffer[5]);
+                        
+                        Juego game = Juego.getInstance();
+                        
+                        String jugador = trama.substring(0,2);
+                        
+                        String option = trama.substring(2,4);
+                        
+                        String canto = trama.substring(4,8);
+                        String nombreCanto = "ninguno";
+                        
+                        if (!jugador.equals(Constantes.numero_jugador)){
+                            // Si no soy la persona que envio la trama valido el canto
+                            
+                            if (!game.isInMyTeam(jugador)){
+                                // Si el jugador que lo envio, NO ESTA en tu grupo, pregunto por el canto
+                                
+                                if (option.equals("00")){
+                                    
+                                    String optionResponse = "00";
+                                    // Si aun no ha sido aceptada, le pregunto
+                                    
+                                    switch (canto){
+                                    
+                                        case "0001":
+                                            nombreCanto = "Truco";
+                                            break;
+                                        case "0010":
+                                            nombreCanto = "Retruco";
+                                            break;
+                                        case "0011":
+                                            nombreCanto = "Envido";
+                                            break;
+                                    }
+
+                                    int response = JOptionPane.showConfirmDialog(null, "Recibiendo "+ nombreCanto +" de "+jugador, "Confirmar canto", JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE);
+
+                                    if (response == 1 || response == -1){
+                                        System.out.println("Canto rechazado.");
+                                        optionResponse = "10";
+                                    }
+                                    else if (response == 0){
+                                        System.out.println("Canto aceptado.");
+                                        optionResponse = "01";
+                                        
+                                        //Agarrar el # de partidas.
+                                        int numPartidas = game.getPartidas_jugadas().size();
+                                        //De la ultima partida, agarra el # de rondas.
+//                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                        // De la ultima ronda, agarra el # de jugadas.
+                                        int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+                                        
+                                        // A la ultima jugada, setea el canto y el numero del jugador
+                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setCanto(canto);
+                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setNumero_jugador(jugador);
+                                        
+                                        
+                                        int valor = game.getPartidas_jugadas().get(numPartidas - 1).getValor_partida();
+                                        game.getPartidas_jugadas().get(numPartidas - 1).setValor_partida(valor + 3);
+                                        
+                                        
+                                    }
+                                    
+                                    buffer[5] = (byte) Short.parseShort(jugador + optionResponse + canto, 2);
+                                    addByte(buffer);
+                                    
+                                }
+                                else{
+                                    System.out.println("El canto ya ha sido respondido, reenviando.");
+                                    
+                                    if (option.equals("10")){
+                                        // CANTO NEGADO
+                                    }
+                                    else{
+                                        // CANTO APROBADO
+
+                                        //Agarrar el # de partidas.
+                                        int numPartidas = game.getPartidas_jugadas().size();
+                                        //De la ultima partida, agarra el # de rondas.
+//                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                        // De la ultima ronda, agarra el # de jugadas.
+                                        int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+                                        
+                                        // A la ultima jugada, setea el canto y el numero del jugador
+                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setCanto(canto);
+                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setNumero_jugador(jugador);
+                                        
+                                        
+                                        int valor = game.getPartidas_jugadas().get(numPartidas - 1).getValor_partida();
+                                        game.getPartidas_jugadas().get(numPartidas - 1).setValor_partida(valor + 3);
+                                    }
+                                    
+                                    addByte(buffer);
+                                }
+
+                            }
+                            else{
+                                System.out.println("Tu companiero envio un canto, reenviando.");
+                                addByte(buffer);
+                            }
+                            
+                        }
+                        else{
+                            // RECIBI MI TRAMA DE CANTO
+                            
+                            
+                            if (option.equals("10")){
+                                // CANTO NEGADO
+                                // Enviar trama de ganar partida 
+                                
+                                //Solicito una nueva partida
+                                game.nextPartida();
+                                
+                            }
+                            else{
+                                // CANTO APROBADO
+                                
+                                //Agarrar el # de partidas.
+                                int numPartidas = game.getPartidas_jugadas().size();
+                                //De la ultima partida, agarra el # de rondas.
+//                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                // De la ultima ronda, agarra el # de jugadas.
+                                int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+
+                                // A la ultima jugada, setea el canto y el numero del jugador
+                                game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setCanto(canto);
+                                game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setNumero_jugador(jugador);
+
+
+                                int valor = game.getPartidas_jugadas().get(numPartidas - 1).getValor_partida();
+                                game.getPartidas_jugadas().get(numPartidas - 1).setValor_partida(valor + 3);
+                            }
+                            
+                        }
                     }
                     
-                    if (!Constantes.ByteToString(buffer[6]).equals("00000000")){
+                    if (!Constantes.ByteToString(buffer[6]).equals("00000000"))
+                    {
                         System.out.println("Estas recibiendo lista de jugadores: "+Constantes.trama6);
                         
                         String lista = Constantes.ByteToString(buffer[6]);
@@ -355,6 +515,13 @@ public class Connection {
                         
                     }
                     
+                    
+                    if (!Constantes.ByteToString(buffer[7]).equals("00000000")){
+                        
+                        System.out.println("Estas recibiendo una notificacion de ganador.");
+                        
+                    }
+                    
                     if (!Constantes.jugador_turno.equals("NA")){
                         Mesa_Controller mesa = Mesa_Controller.getInstance();
                         if (Constantes.jugador_turno.equals(Constantes.numero_jugador)){
@@ -404,7 +571,7 @@ public class Connection {
                 break;
         }
         
-        byte[] trama = new byte[8];
+        byte[] trama = new byte[9];
         trama[0] = (byte) Short.parseShort(Constantes.msg_flag, 2);
         trama[1] = (byte) Short.parseShort("00000000", 2);
         trama[2] = (byte) Short.parseShort("00000000", 2);

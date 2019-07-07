@@ -510,13 +510,17 @@
               <Color blue="0" green="ff" red="66" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="TURNO"/>
+            <Property name="text" type="java.lang.String" value="NADA"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="cbCanto">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="0"/>
+              <StringArray count="3">
+                <StringItem index="0" value="----------"/>
+                <StringItem index="1" value="Truco"/>
+                <StringItem index="2" value="Retruco"/>
+              </StringArray>
             </Property>
           </Properties>
           <AuxValues>

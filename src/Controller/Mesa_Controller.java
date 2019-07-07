@@ -10,6 +10,7 @@ import Model.Mano;
 import Utilidades.Constantes;
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -30,6 +31,35 @@ public class Mesa_Controller {
     private JLabel cartaT11;
     private JLabel cartaVira;
     private JLabel turno;
+    private JComboBox cbCartas;
+    private JComboBox cbCantos;
+    private JButton btnTirarCarta;
+    private JButton btnCanto;
+
+    public JButton getBtnTirarCarta() {
+        return btnTirarCarta;
+    }
+
+    public void setBtnTirarCarta(JButton btnTirarCarta) {
+        this.btnTirarCarta = btnTirarCarta;
+    }
+
+    public JButton getBtnCanto() {
+        return btnCanto;
+    }
+
+    public void setBtnCanto(JButton btnCanto) {
+        this.btnCanto = btnCanto;
+    }
+    
+
+    public JComboBox getCbCantos() {
+        return cbCantos;
+    }
+
+    public void setCbCantos(JComboBox cbCantos) {
+        this.cbCantos = cbCantos;
+    }
 
     public Mano getMano() {
         return mano;
@@ -46,7 +76,6 @@ public class Mesa_Controller {
     public void setTurno(JLabel turno) {
         this.turno = turno;
     }
-    private JComboBox cbCartas;
 
     public Mesa_Controller() {
         this.mano = Mano.getInstance();

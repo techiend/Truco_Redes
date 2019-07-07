@@ -24,7 +24,6 @@ import javax.swing.JOptionPane;
  * @author Techiend
  */
 public class Mesa extends javax.swing.JFrame {
-
     private Mano mano;
     /**
      * Creates new form Init
@@ -43,13 +42,21 @@ public class Mesa extends javax.swing.JFrame {
         mesaController.setCarta1(carta1);
         mesaController.setCarta2(carta2);
         mesaController.setCarta3(carta3);
+        
+        mesaController.setCartaVira(cartaVira);
+        
         mesaController.setCbCartas(cbCartas);
+        mesaController.setCbCantos(cbCanto);
+        
         mesaController.setCartaT00(cartaT1);
         mesaController.setCartaT01(cartaT2);
         mesaController.setCartaT10(cartaT3);
         mesaController.setCartaT11(cartaT4);
-        mesaController.setCartaVira(cartaVira);
+        
         mesaController.setTurno(lbTurno);
+        
+        mesaController.setBtnTirarCarta(btnTirarCarta);
+        mesaController.setBtnCanto(btnCanto);
         
         this.setResizable(false);
         this.setLocationRelativeTo(null);
@@ -209,7 +216,9 @@ public class Mesa extends javax.swing.JFrame {
         lbTurno.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         lbTurno.setForeground(new java.awt.Color(102, 255, 0));
         lbTurno.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTurno.setText("TURNO");
+        lbTurno.setText("NADA");
+
+        cbCanto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "----------", "Truco", "Retruco" }));
 
         btnCanto.setText("Enviar canto");
         btnCanto.addActionListener(new java.awt.event.ActionListener() {
@@ -377,6 +386,47 @@ public class Mesa extends javax.swing.JFrame {
 
     private void btnCantoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCantoActionPerformed
         // TODO add your handling code here:
+        
+        if (Constantes.jugador_turno.equals(Constantes.numero_jugador)){
+            System.out.println("ME TOCA JUGAR");
+            
+            if (cbCanto.getSelectedIndex()>0){
+                System.out.println("Elegiste canto.");
+                Connection conn = Connection.getInstance();
+                
+                switch (cbCanto.getSelectedIndex()){
+                
+                    case 1:
+                        System.out.println("El canto es: Truco");
+                        
+                        conn.sendCanto("0001");
+                        
+                        cbCanto.setSelectedIndex(0);
+                        break;
+                    case 2:
+                        System.out.println("El canto es: Retruco");
+                        
+                        conn.sendCanto("0010");
+                        
+                        cbCanto.setSelectedIndex(0);
+                        break;
+                    case 3:
+                        System.out.println("El canto es: Envido");
+                        
+                        conn.sendCanto("0011");
+                        
+                        cbCanto.setSelectedIndex(0);
+                        break;
+                }
+            }
+            else{
+                System.out.println("No elegiste canto.");
+            }
+            
+        }
+        else{
+            System.out.println("NO ME TOCA JUGAR");
+        }
     }//GEN-LAST:event_btnCantoActionPerformed
 
     

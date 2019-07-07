@@ -15,9 +15,28 @@ public class Jugada{
     private String numero_jugador;
     private String canto;
 
-    public Jugada(Carta carta_jugada, String numero_jugador, String canto) {
+    public Jugada() {
+    }
+    
+    public Jugada(Carta carta_jugada, String numero_jugador) {
         this.carta_jugada = carta_jugada;
         this.numero_jugador = numero_jugador;
+    }
+
+    public Jugada(String numero_jugador, String canto) {
+        this.numero_jugador = numero_jugador;
+        this.canto = canto;
+    }
+
+    public void setCarta_jugada(Carta carta_jugada) {
+        this.carta_jugada = carta_jugada;
+    }
+
+    public void setNumero_jugador(String numero_jugador) {
+        this.numero_jugador = numero_jugador;
+    }
+
+    public void setCanto(String canto) {
         this.canto = canto;
     }
 
