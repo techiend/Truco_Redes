@@ -172,32 +172,43 @@ public class Mesa_Controller {
     
     public void UpdateHand(){
     
+        Mano manito = Mano.getInstance();
+        
         cbCartas.removeAllItems();
-        for (int i = 0; i < mano.mano.size(); i++){
-            Carta carta = mano.mano.get(i);
-            
-            cbCartas.addItem(carta.getNumero());
-            if (i == 0){
-//                System.out.println(carta.getImageRoute());
-                carta1.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
-                
+        
+        if (manito.mano.size() > 0){
+            for (int i = 0; i < manito.mano.size(); i++){
+                Carta carta = manito.mano.get(i);
+
+                cbCartas.addItem(carta.getNumero());
+                if (i == 0){
+    //                System.out.println(carta.getImageRoute());
+                    carta1.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
+
+                }
+
+                if (i == 1){
+    //                System.out.println(carta.getImageRoute());
+                    carta2.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
+                }
+
+                if (i == 2){
+    //                System.out.println(carta.getImageRoute());
+                    carta3.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
+                }
             }
-            
-            if (i == 1){
-//                System.out.println(carta.getImageRoute());
-                carta2.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
-            }
-            
-            if (i == 2){
-//                System.out.println(carta.getImageRoute());
-                carta3.setIcon(new ImageIcon(getClass().getResource(carta.getImageRoute())));
-            }
+        }
+        else {
+            carta1.setIcon(null);
+            carta2.setIcon(null);
+            carta3.setIcon(null);
         }
         
         if (Constantes.vira != null)
             cartaVira.setIcon(new ImageIcon(getClass().getResource(Constantes.vira.getImageRoute())));
         else{
             // VALIDAR QUE PUEDE COMENZAR EL TURNO
+            cartaVira.setIcon(null);
 
         }
 

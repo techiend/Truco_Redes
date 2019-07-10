@@ -34,7 +34,7 @@ public class Mano {
     }
     
     public void restoreHand(){
-        this.mano = new ArrayList<Carta>();
+        
         Mesa_Controller mesa = Mesa_Controller.getInstance();
         mesa.UpdateHand();
     }

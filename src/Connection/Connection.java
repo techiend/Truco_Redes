@@ -9,6 +9,7 @@ import Controller.Mesa_Controller;
 import Model.Baraja;
 import Model.Carta;
 import Model.Juego;
+import Model.Jugada;
 import Model.Mano;
 import Model.Partida;
 import Utilidades.Constantes;
@@ -299,6 +300,29 @@ public class Connection {
                                     if (response == 1 || response == -1){
                                         System.out.println("Canto rechazado.");
                                         optionResponse = "10";
+                                    
+                                        //Agarrar el # de partidas.
+                                        int numPartidas = game.getPartidas_jugadas().size();
+                                        //De la ultima partida, agarra el # de rondas.
+        //                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                        // De la ultima ronda, agarra el # de jugadas.
+                                        int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+
+                                        // A la ultima jugada, setea el canto y el numero del jugador
+                                        Jugada jugada = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1);
+
+                                        jugada.setCanto(canto);
+                                        jugada.setNumero_jugador(jugador);
+
+                                        // Seteo de nuevo la jugada en su sitio
+                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().set(numJugadas - 1, jugada);
+
+                                        Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+
+                                        partida.setNumero_jugador_ganador(jugador);
+                                        partida.setNumero_equipo_ganador(game.playerNumGroup(jugador));
+
+                                        game.getPartidas_jugadas().set(numPartidas - 1, partida);
                                     }
                                     else if (response == 0){
                                         System.out.println("Canto aceptado.");
@@ -331,6 +355,29 @@ public class Connection {
                                     
                                     if (option.equals("10")){
                                         // CANTO NEGADO
+                                    
+                                        //Agarrar el # de partidas.
+                                        int numPartidas = game.getPartidas_jugadas().size();
+                                        //De la ultima partida, agarra el # de rondas.
+        //                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                        // De la ultima ronda, agarra el # de jugadas.
+                                        int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+
+                                        // A la ultima jugada, setea el canto y el numero del jugador
+                                        Jugada jugada = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1);
+
+                                        jugada.setCanto(canto);
+                                        jugada.setNumero_jugador(jugador);
+
+                                        // Seteo de nuevo la jugada en su sitio
+                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().set(numJugadas - 1, jugada);
+
+                                        Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+
+                                        partida.setNumero_jugador_ganador(jugador);
+                                        partida.setNumero_equipo_ganador(game.playerNumGroup(jugador));
+
+                                        game.getPartidas_jugadas().set(numPartidas - 1, partida);
                                     }
                                     else{
                                         // CANTO APROBADO
@@ -338,17 +385,25 @@ public class Connection {
                                         //Agarrar el # de partidas.
                                         int numPartidas = game.getPartidas_jugadas().size();
                                         //De la ultima partida, agarra el # de rondas.
-//                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+        //                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
                                         // De la ultima ronda, agarra el # de jugadas.
                                         int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
-                                        
+
                                         // A la ultima jugada, setea el canto y el numero del jugador
-                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setCanto(canto);
-                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setNumero_jugador(jugador);
-                                        
-                                        
-                                        int valor = game.getPartidas_jugadas().get(numPartidas - 1).getValor_partida();
-                                        game.getPartidas_jugadas().get(numPartidas - 1).setValor_partida(valor + 3);
+                                        Jugada jugada = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1);
+
+                                        jugada.setCanto(canto);
+                                        jugada.setNumero_jugador(jugador);
+
+                                        // Seteo de nuevo la jugada en su sitio
+                                        game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().set(numJugadas - 1, jugada);
+
+                                        Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+
+                                        int valor = partida.getValor_partida();
+                                        partida.setValor_partida(valor + 3);
+
+                                        game.getPartidas_jugadas().set(numPartidas - 1, partida);
                                     }
                                     
                                     addByte(buffer);
@@ -360,6 +415,29 @@ public class Connection {
                                 
                                 if (option.equals("10")){
                                     // CANTO NEGADO
+                                    
+                                    //Agarrar el # de partidas.
+                                    int numPartidas = game.getPartidas_jugadas().size();
+                                    //De la ultima partida, agarra el # de rondas.
+    //                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                    // De la ultima ronda, agarra el # de jugadas.
+                                    int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+
+                                    // A la ultima jugada, setea el canto y el numero del jugador
+                                    Jugada jugada = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1);
+
+                                    jugada.setCanto(canto);
+                                    jugada.setNumero_jugador(jugador);
+
+                                    // Seteo de nuevo la jugada en su sitio
+                                    game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().set(numJugadas - 1, jugada);
+
+                                    Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+
+                                    partida.setNumero_jugador_ganador(jugador);
+                                    partida.setNumero_equipo_ganador(game.playerNumGroup(jugador));
+
+                                    game.getPartidas_jugadas().set(numPartidas - 1, partida);
                                 }
                                 else if (option.equals("01")){
                                     // CANTO APROBADO
@@ -367,17 +445,25 @@ public class Connection {
                                     //Agarrar el # de partidas.
                                     int numPartidas = game.getPartidas_jugadas().size();
                                     //De la ultima partida, agarra el # de rondas.
-//                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+    //                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
                                     // De la ultima ronda, agarra el # de jugadas.
                                     int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
 
                                     // A la ultima jugada, setea el canto y el numero del jugador
-                                    game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setCanto(canto);
-                                    game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setNumero_jugador(jugador);
+                                    Jugada jugada = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1);
 
+                                    jugada.setCanto(canto);
+                                    jugada.setNumero_jugador(jugador);
 
-                                    int valor = game.getPartidas_jugadas().get(numPartidas - 1).getValor_partida();
-                                    game.getPartidas_jugadas().get(numPartidas - 1).setValor_partida(valor + 3);
+                                    // Seteo de nuevo la jugada en su sitio
+                                    game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().set(numJugadas - 1, jugada);
+
+                                    Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+
+                                    int valor = partida.getValor_partida();
+                                    partida.setValor_partida(valor + 3);
+
+                                    game.getPartidas_jugadas().set(numPartidas - 1, partida);
                                 }
                                 
                                 addByte(buffer);
@@ -390,6 +476,31 @@ public class Connection {
                             
                             if (option.equals("10")){
                                 // CANTO NEGADO
+                                    
+                                //Agarrar el # de partidas.
+                                int numPartidas = game.getPartidas_jugadas().size();
+                                //De la ultima partida, agarra el # de rondas.
+//                                        int numRondas = game.getPartidas_jugadas().get(numPartidas - 1).getRondas().size();
+                                // De la ultima ronda, agarra el # de jugadas.
+                                int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
+
+                                // A la ultima jugada, setea el canto y el numero del jugador
+                                Jugada jugada = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1);
+
+                                jugada.setCanto(canto);
+                                jugada.setNumero_jugador(jugador);
+
+                                // Seteo de nuevo la jugada en su sitio
+                                game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().set(numJugadas - 1, jugada);
+
+                                Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+
+                                partida.setNumero_jugador_ganador(jugador);
+                                partida.setNumero_equipo_ganador(game.playerNumGroup(jugador));
+
+                                game.getPartidas_jugadas().set(numPartidas - 1, partida);
+                                
+                                
                                 // Enviar trama de ganar partida 
                                 notificarGanador("10");
                                 System.out.println("Ya avise que gane por canto rechazado. Puntos: "+game.getPointsOfGroup(game.getNumero_de_grupo()));
@@ -405,12 +516,20 @@ public class Connection {
                                 int numJugadas = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().size();
 
                                 // A la ultima jugada, setea el canto y el numero del jugador
-                                game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setCanto(canto);
-                                game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1).setNumero_jugador(jugador);
+                                Jugada jugada = game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().get(numJugadas - 1);
 
+                                jugada.setCanto(canto);
+                                jugada.setNumero_jugador(jugador);
+                                
+                                // Seteo de nuevo la jugada en su sitio
+                                game.getPartidas_jugadas().get(numPartidas - 1).getJugadas().set(numJugadas - 1, jugada);
 
-                                int valor = game.getPartidas_jugadas().get(numPartidas - 1).getValor_partida();
-                                game.getPartidas_jugadas().get(numPartidas - 1).setValor_partida(valor + 3);
+                                Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+                                      
+                                int valor = partida.getValor_partida();
+                                partida.setValor_partida(valor + 3);
+                                
+                                game.getPartidas_jugadas().set(numPartidas - 1, partida);
                             }
                             
                         }
@@ -558,9 +677,11 @@ public class Connection {
                                 if (game.getPointsOfGroup(game.getNumero_de_grupo()) >= 4){
                                     // GANASTE EL JODIDO JUEGO.
                                     System.out.println("Ganaste, Felicidades.");
+                                    JOptionPane.showMessageDialog(null, "Ganaste el juego!", "FELICIDADES!!", JOptionPane.INFORMATION_MESSAGE);
                                 }
                                 else {
                                     System.out.println("Perdiste, lo siento.");
+                                    JOptionPane.showMessageDialog(null, "Perdiste el juego!", "LO SIENTO!!", JOptionPane.INFORMATION_MESSAGE);
                                 }
                                 
                                 break;
@@ -571,15 +692,17 @@ public class Connection {
                                 int numPartidas = game.getPartidas_jugadas().size();
 
                                 // A la ultima partida, seteo el grupo ganador
-                                game.getPartidas_jugadas().get(numPartidas - 1).setNumero_equipo_ganador(game.playerNumGroup(ganador));
+                                Partida partida = game.getPartidas_jugadas().get(numPartidas - 1);
+                                partida.setNumero_equipo_ganador(game.playerNumGroup(ganador));
+                                
+                                game.getPartidas_jugadas().set(numPartidas - 1, partida);
 
                                 if (game.getPointsOfGroup(game.getNumero_de_grupo()) >= 4){
                                     // GANASTE EL JODIDO JUEGO.
                                     System.out.println("Ganaste, Felicidades.");
                                     notificarGanador("01");
-
                                 }
-                                else{
+//                                else{
                                     // SI NO SE ACABA EL JUEGO AUN, SIGO CAMBIANDO LA PARTIDA
                                     //Solicito una nueva partida
                                     game.nextPartida();
@@ -596,13 +719,29 @@ public class Connection {
 
                                     // No importa el jugador, reinicio su mano.
                                     Mano mano = Mano.getInstance();
-                                    mano.restoreHand();
-                                }
+                                    System.out.println("RESTAURANDO MANO!!!!! "+mano.mano.size());
+                                    mano.mano.remove(0);
+                                    System.out.println("RESTAURANDO MANO!!!!! "+mano.mano.size());
+                                    mano.mano.remove(0);
+                                    System.out.println("RESTAURANDO MANO!!!!! "+mano.mano.size());
+                                    mano.mano.remove(0);
+                                    System.out.println("RESTAURANDO MANO!!!!! "+mano.mano.size());
+                                    
+                                    Constantes.vira = null;
+//                                    mano.restoreHand();
+                                    Mesa_Controller mesa = Mesa_Controller.getInstance();
+//                                    mesa.UpdateTurno(false);
+//                                    Constantes.jugador_turno = "";
+                                    mesa.UpdateHand();
+//                                }
                                 break;
                                 
                             case "11":
                                 break;
                         }
+                        
+                        if (!ganador.equals(Constantes.numero_jugador))
+                            addByte(buffer);
                         
                     }
                     
@@ -687,7 +826,8 @@ public class Connection {
         trama[4] = (byte) Short.parseShort("00000000", 2);
         trama[5] = (byte) Short.parseShort("00000000", 2);
         trama[6] = (byte) Short.parseShort(listaNew, 2);
-        trama[7] = (byte) Short.parseShort(Constantes.msg_flag, 2);
+        trama[7] = (byte) Short.parseShort("00000000", 2);
+        trama[8] = (byte) Short.parseShort(Constantes.msg_flag, 2);
 
         addByte(trama);
         System.out.println("Envio la lista.");
